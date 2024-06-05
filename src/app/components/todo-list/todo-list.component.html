@@ -1,27 +1,27 @@
 <div class="todo-inputs">
-  <input type="text" placeholder="Title" #title>
-  <input type="text" placeholder="Description" #description>
-  <input type="datetime-local" placeholder="Due Date" #dueDateTime>
-  <input type="text" placeholder="Tags (comma separated)" #tags>
+  <input type="text" placeholder="タイトル" #title>
+  <input type="text" placeholder="説明" #description>
+  <input type="datetime-local" placeholder="締め切り" #dueDateTime>
+  <input type="text" placeholder="タグ（「、」で区切る）" #tags>
   <select #priority>
-    <option value="high">High</option>
-    <option value="medium">Medium</option>
-    <option value="low">Low</option>
+    <option value="high">高</option>
+    <option value="medium">中</option>
+    <option value="low">低</option>
   </select>
-  <input type="text" placeholder="Location" #location>
+  <input type="text" placeholder="場所" #location>
   <button (click)="addTodo(
     title.value,
     description.value,
     dueDateTime.value,
-    tags.value.split(','),
+    tags.value.split('、'),
     priority.value,
     location.value
-  )">Add Todo</button>
+  )">タスクを追加</button>
 </div>
 
-<div *ngIf="todos.length === 0">No todos available</div>
-<ul *ngIf="todos.length > 0">
-  <li *ngFor="let todo of todos">
+<div *ngIf="todos.length === 0">タスクがありません</div>
+<ul *ngIf="todos.length > 0" class="todo-list">
+  <li *ngFor="let todo of todos" class="todo-list-item">
     <app-todo-item [todo]="todo" (delete)="deleteTodo($event)" (toggleCompletion)="toggleCompletion(todo)" (update)="updateTodo($event)"></app-todo-item>
   </li>
 </ul>

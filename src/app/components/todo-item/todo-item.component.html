@@ -19,21 +19,21 @@
       📍 {{ todo.location }}
     </div>
   </div>
-  <button (click)="onEdit()" class="edit-btn">Edit</button>
-  <button (click)="onDelete()" class="delete-btn">Delete</button>
+  <button (click)="onEdit()" class="edit-btn">編集</button>
+  <button (click)="onDelete()" class="delete-btn">削除</button>
 </div>
 
 <div *ngIf="editMode" class="todo-edit-form">
-  <input type="text" [(ngModel)]="editTitle" placeholder="Title">
-  <input type="text" [(ngModel)]="editDescription" placeholder="Description">
-  <input type="datetime-local" [(ngModel)]="editDueDateTime" placeholder="Due Date">
-  <input type="text" [(ngModel)]="editTags" placeholder="Tags (comma separated)">
+  <input type="text" [(ngModel)]="editTitle" placeholder="タイトル">
+  <input type="text" [(ngModel)]="editDescription" placeholder="説明">
+  <input type="datetime-local" [(ngModel)]="editDueDateTime" placeholder="締め切り">
+  <input type="text" [(ngModel)]="editTags" placeholder="タグ（カンマ区切り）">
   <select [(ngModel)]="editPriority">
-    <option value="high">High</option>
-    <option value="medium">Medium</option>
-    <option value="low">Low</option>
+    <option value="high">高</option>
+    <option value="medium">中</option>
+    <option value="low">低</option>
   </select>
-  <input type="text" [(ngModel)]="editLocation" placeholder="Location">
-  <button (click)="onSave()">Save</button>
-  <button (click)="onCancel()">Cancel</button>
+  <input type="text" [(ngModel)]="editLocation" placeholder="場所">
+  <button (click)="onSave()">保存</button>
+  <button (click)="onCancel()">キャンセル</button>
 </div>

@@ -34,7 +34,7 @@ export class TodoItemComponent {
     this.editTitle = this.todo.title;
     this.editDescription = this.todo.description;
     this.editDueDateTime = this.todo.dueDate ? this.todo.dueDate.toDate().toISOString().slice(0, 16) : null;
-    this.editTags = this.todo.tags.join(',');
+    this.editTags = this.todo.tags.join('、');
     this.editPriority = this.todo.priority;
     this.editLocation = this.todo.location;
   }
@@ -45,7 +45,7 @@ export class TodoItemComponent {
       title: this.editTitle,
       description: this.editDescription,
       dueDate: this.editDueDateTime ? firebase.firestore.Timestamp.fromDate(new Date(this.editDueDateTime)) : null,
-      tags: this.editTags.split(',').map(tag => tag.trim()),
+      tags: this.editTags.split('、').map(tag => tag.trim()),
       priority: this.editPriority,
       location: this.editLocation
     };
