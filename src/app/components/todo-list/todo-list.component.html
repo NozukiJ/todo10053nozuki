@@ -1,0 +1,27 @@
+<div class="todo-inputs">
+  <input type="text" placeholder="Title" #title>
+  <input type="text" placeholder="Description" #description>
+  <input type="datetime-local" placeholder="Due Date" #dueDateTime>
+  <input type="text" placeholder="Tags (comma separated)" #tags>
+  <select #priority>
+    <option value="high">High</option>
+    <option value="medium">Medium</option>
+    <option value="low">Low</option>
+  </select>
+  <input type="text" placeholder="Location" #location>
+  <button (click)="addTodo(
+    title.value,
+    description.value,
+    dueDateTime.value,
+    tags.value.split(','),
+    priority.value,
+    location.value
+  )">Add Todo</button>
+</div>
+
+<div *ngIf="todos.length === 0">No todos available</div>
+<ul *ngIf="todos.length > 0">
+  <li *ngFor="let todo of todos">
+    <app-todo-item [todo]="todo" (delete)="deleteTodo($event)" (toggleCompletion)="toggleCompletion(todo)" (update)="updateTodo($event)"></app-todo-item>
+  </li>
+</ul>

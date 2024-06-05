@@ -1,0 +1,30 @@
+.todo-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.todo-inputs input,
+.todo-inputs select,
+.todo-inputs button {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.todo-inputs button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.todo-inputs button:hover {
+  background-color: #0056b3;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

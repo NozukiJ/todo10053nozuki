@@ -1,0 +1,39 @@
+<div *ngIf="!editMode" class="todo-card">
+  <button (click)="onToggleCompletion()" class="complete-btn">
+    {{ todo.completed ? '✅' : '⬜' }}
+  </button>
+  <div class="todo-details">
+    <span class="todo-title">{{ todo.title }}</span>
+    <span class="todo-description">{{ todo.description }}</span>
+    <span *ngIf="todo.dueDate" class="todo-due-date">
+      📅 {{ todo.dueDate.toDate() | date:'short' }}
+    </span>
+    <span class="todo-tags">
+      🏷️ 
+      <span *ngFor="let tag of todo.tags" class="todo-tag">{{ tag }}</span>
+    </span>
+    <span class="todo-priority">
+      🔥 {{ todo.priority }}
+    </span>
+    <span class="todo-location">
+      📍 {{ todo.location }}
+    </span>
+  </div>
+  <button (click)="onEdit()" class="edit-btn">Edit</button>
+  <button (click)="onDelete()" class="delete-btn">Delete</button>
+</div>
+
+<div *ngIf="editMode" class="todo-edit-form">
+  <input type="text" [(ngModel)]="editTitle" placeholder="Title">
+  <input type="text" [(ngModel)]="editDescription" placeholder="Description">
+  <input type="datetime-local" [(ngModel)]="editDueDateTime" placeholder="Due Date">
+  <input type="text" [(ngModel)]="editTags" placeholder="Tags (comma separated)">
+  <select [(ngModel)]="editPriority">
+    <option value="high">High</option>
+    <option value="medium">Medium</option>
+    <option value="low">Low</option>
+  </select>
+  <input type="text" [(ngModel)]="editLocation" placeholder="Location">
+  <button (click)="onSave()">Save</button>
+  <button (click)="onCancel()">Cancel</button>
+</div>

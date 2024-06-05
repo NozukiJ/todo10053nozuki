@@ -1,0 +1,23 @@
+{
+  "projects": {
+    "default": "nozuki3rd"
+  },
+  "targets": {
+    "nozuki3rd": {
+      "hosting": {
+        "default": [
+          "nozuki3rd"
+        ]
+      }
+    },
+    "hapihapi-2447d": {
+      "hosting": {
+        "default": [
+          "nozuki3rd"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}
