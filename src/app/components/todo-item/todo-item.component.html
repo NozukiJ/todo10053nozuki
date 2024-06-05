@@ -3,21 +3,21 @@
     {{ todo.completed ? '✅' : '⬜' }}
   </button>
   <div class="todo-details">
-    <span class="todo-title">{{ todo.title }}</span>
-    <span class="todo-description">{{ todo.description }}</span>
-    <span *ngIf="todo.dueDate" class="todo-due-date">
+    <div class="todo-detail todo-title" (click)="toggleExpand($event)" title="{{ todo.title }}">{{ todo.title }}</div>
+    <div class="todo-detail todo-description" (click)="toggleExpand($event)" title="{{ todo.description }}">{{ todo.description }}</div>
+    <div *ngIf="todo.dueDate" class="todo-detail todo-due-date" (click)="toggleExpand($event)" title="{{ todo.dueDate.toDate() | date:'short' }}">
       📅 {{ todo.dueDate.toDate() | date:'short' }}
-    </span>
-    <span class="todo-tags">
+    </div>
+    <div class="todo-detail todo-tags" (click)="toggleExpand($event)" title="{{ todo.tags.join(', ') }}">
       🏷️ 
       <span *ngFor="let tag of todo.tags" class="todo-tag">{{ tag }}</span>
-    </span>
-    <span class="todo-priority">
+    </div>
+    <div class="todo-detail todo-priority" (click)="toggleExpand($event)" title="{{ todo.priority }}">
       🔥 {{ todo.priority }}
-    </span>
-    <span class="todo-location">
+    </div>
+    <div class="todo-detail todo-location" (click)="toggleExpand($event)" title="{{ todo.location }}">
       📍 {{ todo.location }}
-    </span>
+    </div>
   </div>
   <button (click)="onEdit()" class="edit-btn">Edit</button>
   <button (click)="onDelete()" class="delete-btn">Delete</button>

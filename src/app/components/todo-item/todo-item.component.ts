@@ -56,4 +56,11 @@ export class TodoItemComponent {
   onCancel(): void {
     this.editMode = false;
   }
+
+  toggleExpand(event: Event): void {
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('todo-detail')) {
+      target.classList.toggle('expanded');
+    }
+  }
 }
