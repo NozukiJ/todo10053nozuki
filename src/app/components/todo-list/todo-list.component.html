@@ -47,6 +47,9 @@
 
   <label for="titleFilter">タイトル:</label>
   <input type="text" name="title" id="titleFilter" placeholder="タイトルでフィルタ" (input)="onFilterChange($event)">
+
+  <label for="locationFilter">場所:</label>
+  <input type="text" name="location" id="locationFilter" placeholder="場所でフィルタ" (input)="onFilterChange($event)">
 </div>
 
 <div *ngIf="displayedTodos.length === 0">タスクがありません</div>
