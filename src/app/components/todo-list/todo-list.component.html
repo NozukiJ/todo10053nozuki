@@ -19,9 +19,39 @@
   )">タスクを追加</button>
 </div>
 
-<div *ngIf="todos.length === 0">タスクがありません</div>
-<ul *ngIf="todos.length > 0" class="todo-list">
-  <li *ngFor="let todo of todos" class="todo-list-item">
+<div class="sort-filter-options">
+  <label for="sortCriteria">ソート基準:</label>
+  <select id="sortCriteria" (change)="onSortChange($event)">
+    <option value="createdAt">作成日</option>
+    <option value="dueDate">締め切り日</option>
+    <option value="priority">優先度</option>
+  </select>
+
+  <label for="filterCompleted">タスクの完了:</label>
+  <select name="completed" id="filterCompleted" (change)="onFilterChange($event)">
+    <option value="all">すべて</option>
+    <option value="true">完了</option>
+    <option value="false">未完了</option>
+  </select>
+
+  <label for="priorityFilter">優先度:</label>
+  <select name="priority" id="priorityFilter" (change)="onFilterChange($event)">
+    <option value="all">すべて</option>
+    <option value="high">高</option>
+    <option value="medium">中</option>
+    <option value="low">低</option>
+  </select>
+
+  <label for="tagsFilter">タグ:</label>
+  <input type="text" name="tags" id="tagsFilter" placeholder="タグでフィルタ" (input)="onFilterChange($event)">
+
+  <label for="titleFilter">タイトル:</label>
+  <input type="text" name="title" id="titleFilter" placeholder="タイトルでフィルタ" (input)="onFilterChange($event)">
+</div>
+
+<div *ngIf="displayedTodos.length === 0">タスクがありません</div>
+<ul *ngIf="displayedTodos.length > 0" class="todo-list">
+  <li *ngFor="let todo of displayedTodos" class="todo-list-item">
     <app-todo-item [todo]="todo" (delete)="deleteTodo($event)" (toggleCompletion)="toggleCompletion(todo)" (update)="updateTodo($event)"></app-todo-item>
   </li>
 </ul>

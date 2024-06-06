@@ -3,6 +3,11 @@ import { TodoService } from '../../services/todo.service';
 import { Todo } from '../../models/todo.model';
 import firebase from 'firebase/compat/app';
 
+interface FilterCriteria {
+  key: keyof Todo | 'all';
+  value: string;
+}
+
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
@@ -10,6 +15,9 @@ import firebase from 'firebase/compat/app';
 })
 export class TodoListComponent implements OnInit {
   todos: Todo[] = [];
+  displayedTodos: Todo[] = [];
+  sortCriteria: keyof Todo = 'createdAt'; // 初期ソート基準
+  filterCriteria: FilterCriteria[] = []; // 初期フィルタ基準
 
   constructor(private todoService: TodoService) {}
 
@@ -19,7 +27,8 @@ export class TodoListComponent implements OnInit {
 
   loadTodos(): void {
     this.todoService.getTodos().then(todos => {
-      this.todos = todos;
+      this.todos = this.sortTodos(todos, this.sortCriteria);
+      this.applyFilters();
       console.log('Todos fetched:', todos);
     }).catch(error => {
       console.error('Error fetching todos:', error);
@@ -34,8 +43,8 @@ export class TodoListComponent implements OnInit {
     priority: string,
     location: string
   ): void {
-    if (!title || !description) {
-      console.error('Title and description are required');
+    if (!title && !description && !dueDateTime && tags.length === 0 && !priority && !location) {
+      console.error('At least one field is required');
       return;
     }
 
@@ -112,5 +121,73 @@ export class TodoListComponent implements OnInit {
     } else {
       console.error('Error: Todo ID is undefined');
     }
+  }
+
+  sortTodos(todos: Todo[], criteria: keyof Todo): Todo[] {
+    return todos.sort((a, b) => {
+      const aValue = a[criteria];
+      const bValue = b[criteria];
+
+      // aValueとbValueがnullまたはundefinedの場合の処理
+      if (aValue == null) return 1;
+      if (bValue == null) return -1;
+
+      if (aValue < bValue) {
+        return -1;
+      } else if (aValue > bValue) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  applyFilters(): void {
+    let filteredTodos = this.todos;
+
+    this.filterCriteria.forEach(criteria => {
+      if (criteria.key === 'all' || criteria.value === '' || criteria.value === 'all') {
+        return;
+      }
+
+      filteredTodos = filteredTodos.filter(todo => {
+        if (criteria.key === 'completed') {
+          const completedValue = criteria.value === 'true';
+          return todo.completed === completedValue;
+        } else {
+          const value = todo[criteria.key as keyof Todo];
+          if (Array.isArray(value)) {
+            return value.includes(criteria.value);
+          }
+          return value === criteria.value;
+        }
+      });
+    });
+
+    this.displayedTodos = filteredTodos;
+  }
+
+  onSortChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const criteria = target.value as keyof Todo;
+    this.sortCriteria = criteria;
+    this.todos = this.sortTodos(this.todos, criteria);
+    this.applyFilters();
+  }
+
+  onFilterChange(event: Event): void {
+    const target = event.target as HTMLSelectElement | HTMLInputElement;
+    const key = target.name as keyof Todo | 'all';
+    const value = target.value;
+
+    // フィルタ基準を更新または追加
+    const existingCriteria = this.filterCriteria.find(criteria => criteria.key === key);
+    if (existingCriteria) {
+      existingCriteria.value = value;
+    } else {
+      this.filterCriteria.push({ key, value });
+    }
+
+    this.applyFilters();
   }
 }
