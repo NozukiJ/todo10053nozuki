@@ -26,11 +26,11 @@ export class TodoListComponent implements OnInit {
   }
 
   loadTodos(): void {
-    this.todoService.getTodos().then(todos => {
+    this.todoService.getTodos().subscribe((todos: Todo[]) => {
       this.todos = this.sortTodos(todos, this.sortCriteria);
       this.applyFilters();
       console.log('Todos fetched:', todos);
-    }).catch(error => {
+    }, (error: any) => {
       console.error('Error fetching todos:', error);
     });
   }

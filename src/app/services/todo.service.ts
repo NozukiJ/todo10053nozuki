@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
+import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Todo } from '../models/todo.model';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
@@ -12,14 +15,16 @@ export class TodoService {
 
   constructor(private firestore: AngularFirestore) {}
 
-  getTodos() {
-    return this.todosCollection.ref.orderBy('createdAt').get().then(querySnapshot => {
+  getTodos(): Observable<Todo[]> {
+    const todosPromise = this.todosCollection.ref.orderBy('createdAt').get().then(querySnapshot => {
       return querySnapshot.docs.map(doc => {
         const data = doc.data() as Todo;
         data.id = doc.id;
         return data;
       });
     });
+
+    return from(todosPromise);
   }
 
   addTodo = (todo: Todo): Promise<void> => {
